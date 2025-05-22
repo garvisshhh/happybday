@@ -41,11 +41,12 @@ a {
 }
 #lucky-text {
     color: #fff;
-    font-size: 0.5em;
+    font-size: 1.1em;  /* Changed from 0.5em to 1.1em for better visibility, but still smaller than main titles */
     text-align: center;
     margin-bottom: 10px;
     font-weight: bold;
     letter-spacing: 2px;
+    font-family: "Comic Sans MS", "Comic Sans", cursive, sans-serif;
 }
 #clock-box {
   position: absolute;
@@ -93,5 +94,5 @@ a {
   margin-top:600px;
   font-size: 25px;
   font-family: "Comic Sans MS", "Comic Sans", cursive, sans-serif;
-  color: #fff; /* black text for messages */
+  color: #fff; /* white text for messages */
 }
