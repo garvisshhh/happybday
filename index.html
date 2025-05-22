@@ -14,12 +14,33 @@
     <script type="text/javascript" src="./file/functions.js" charset="utf-8"></script>
     <script type="text/javascript" src="./file/love.js" charset="utf-8"></script>
     <style>
-        /* Added inline style for white text */
-        #code, #code .say, #clock {
-            color: #fff !important;
-        }
         body {
-            background-color: #222; /* Optional, makes white text stand out */
+            background-color: #222;
+            color: #000 !important;
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif !important;
+        }
+        #main, #wrap, #text, #code, #code .say, #clock, #clock-box, #clock-box a, .say, .space, #message-box, #error, #clock .digit {
+            color: #000 !important;
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif !important;
+        }
+        a {
+            color: #000 !important;
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif !important;
+        }
+        #code {
+            font-size: 16px;
+            margin-top: 70px;
+            line-height: 25px;
+            font-size: larger;
+            font-weight: bolder;
+        }
+        #message-above-clock {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 10px;
+            font-size: 25px;
+            color: #000;
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif !important;
         }
     </style>
     <script>
@@ -29,8 +50,8 @@
         }
 
         // LIVE CLOCK FUNCTION
-        // Set your start date below (example: 2005-05-23 for 6940 days on 2024-05-23)
-        var startDate = new Date(2006, 5, 24, 23, 59, 0, 0);
+        // Adjusted: 6935 days at 11:59 PM today (2025-05-22)
+        var startDate = new Date(2006, 5, 22, 23, 59, 0, 0); // YYYY, MM, DD, HH, MM, SS
 
         function updateClock() {
             var now = new Date();
@@ -67,6 +88,9 @@
                     <span class="say">And I will always love u 🥺 ❤️</span><br>
                     <span class="say">Hope u have a great day today ❤️😘</span><br>
                 </div>
+            </div>
+            <div id="message-above-clock">
+                THE WORLD GOT LUCKIER SINCE
             </div>
             <div id="clock-box">
                 <span id="clock">6940 days 0 hours 0 minutes 0 seconds</span>
