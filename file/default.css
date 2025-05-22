@@ -64,7 +64,7 @@ a {
   color: #000; /* black text for clock */
 }
 #clock .digit {
-  font-size: 84px;
+  font-size: 64px;
 }
 #canvas {
   margin: 0 auto;
