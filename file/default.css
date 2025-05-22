@@ -85,5 +85,5 @@ a {
   margin-top:450px;
   font-size: 25px;
   font-family: monospace;
-  color: #fff; /* white text for messages */
+  color: #000; /* black text for messages */
 }
