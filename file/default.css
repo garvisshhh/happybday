@@ -6,11 +6,11 @@ body {
   background-repeat: no-repeat;
   font-size: 14px;
   font-family: sans-serif;
-  color: #fff;
+  color: #000;
   overflow: auto;
 }
 a {
-  color: #fff;
+  color: #000;
   font-size: 14px;
 }
 #main {
@@ -32,7 +32,7 @@ a {
 }
 #code {
   display: none;
-  color: #fff; /* force white text */
+  color: #000; /* changed from #fff to black */
   font-size: 16px;
   margin-top: 70px;
   line-height: 25px;
@@ -49,11 +49,11 @@ a {
 #clock-box a {
   font-size: 28px;
   text-decoration: none;
-  color: #fff;
+  color: #000;
 }
 #clock {
   margin-left: 48px;
-  color: #fff; /* white text for clock */
+  color: #000; /* black text for clock */
 }
 #clock .digit {
   font-size: 64px;
@@ -73,7 +73,7 @@ a {
   cursor: pointer;
 }
 .say {
-  color: #fff; /* white text for message lines */
+  color: #000; /* black text for message lines */
   margin-left: 5px;
 }
 .space {
