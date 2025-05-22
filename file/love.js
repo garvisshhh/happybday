@@ -1,5 +1,4 @@
 (function(window){
-    "use strict";
 
     function random(min, max) {
         return min + Math.floor(Math.random() * (max - min + 1));
@@ -13,11 +12,12 @@
     }  
 
     function inheart(x, y, r) {
+        
         var z = ((x / r) * (x / r) + (y / r) * (y / r) - 1) * ((x / r) * (x / r) + (y / r) * (y / r) - 1) * ((x / r) * (x / r) + (y / r) * (y / r) - 1) - (x / r) * (x / r) * (y / r) * (y / r) * (y / r);
         return z < 0;
     }
 
-    var Point = function(x, y) {
+    Point = function(x, y) {
         this.x = x || 0;
         this.y = y || 0;
     }
@@ -26,32 +26,35 @@
             return new Point(this.x, this.y);
         },
         add: function(o) {
-            var p = this.clone();
+            p = this.clone();
             p.x += o.x;
             p.y += o.y;
             return p;
         },
         sub: function(o) {
-            var p = this.clone();
+            p = this.clone();
             p.x -= o.x;
             p.y -= o.y;
             return p;
         },
         div: function(n) {
-            var p = this.clone();
+            p = this.clone();
             p.x /= n;
             p.y /= n;
             return p;
         },
         mul: function(n) {
-            var p = this.clone();
+            p = this.clone();
             p.x *= n;
             p.y *= n;
             return p;
         }
     }
 
-    var Heart = function() {
+    Heart = function() {
+        // x = 16 sin^3 t
+        // y = 13 cos t - 5 cos 2t - 2 cos 3t - cos 4t
+        // http://www.wolframalpha.com/input/?i=x+%3D+16+sin%5E3+t%2C+y+%3D+(13+cos+t+-+5+cos+2t+-+2+cos+3t+-+cos+4t)
         var points = [], x, y, t;
         for (var i = 10; i < 30; i += 0.2) {
             t = i / Math.PI;
@@ -68,23 +71,23 @@
         }
     }
 
-    var Seed = function(tree, point, scale, color) {
+    Seed = function(tree, point, scale, color) {
         this.tree = tree;
 
-        var seedScale = scale || 1;
-        var seedColor = color || '#FFC0CB';
+        var scale = scale || 1
+        var color = '#FFC0CB';
 
         this.heart = {
             point  : point,
-            scale  : seedScale,
-            color  : seedColor,
+            scale  : scale,
+            color  : color,
             figure : new Heart(),
         }
 
-        this.circle = {
+        this.cirle = {
             point  : point,
-            scale  : seedScale,
-            color  : seedColor,
+            scale  : scale,
+            color  : color,
             radius : 5,
         }
     }
@@ -94,14 +97,14 @@
             this.drawText();
         },
         addPosition: function(x, y) {
-            this.circle.point = this.circle.point.add(new Point(x, y));
+            this.cirle.point = this.cirle.point.add(new Point(x, y));
         },
         canMove: function() {
-            return this.circle.point.y < (this.tree.height + 20); 
+            return this.cirle.point.y < (this.tree.height + 20); 
         },
         move: function(x, y) {
             this.clear();
-            this.drawCircle();
+            this.drawCirle();
             this.addPosition(x, y);
         },
         canScale: function() {
@@ -112,7 +115,7 @@
         },
         scale: function(scale) {
             this.clear();
-            this.drawCircle();
+            this.drawCirle();
             this.drawHeart();
             this.setHeartScale(scale);
         },
@@ -133,17 +136,17 @@
             ctx.fill();
             ctx.restore();
         },
-        drawCircle: function() {
-            var ctx = this.tree.ctx, circle = this.circle;
-            var point = circle.point, color = circle.color, 
-                scale = circle.scale, radius = circle.radius;
+        drawCirle: function() {
+            var ctx = this.tree.ctx, cirle = this.cirle;
+            var point = cirle.point, color = cirle.color, 
+                scale = cirle.scale, radius = cirle.radius;
             ctx.save();
             ctx.fillStyle = color;
             ctx.translate(point.x, point.y);
             ctx.scale(scale, scale);
             ctx.beginPath();
             ctx.moveTo(0, 0);
-            ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+    	    ctx.arc(0, 0, radius, 0, 2 * Math.PI);
             ctx.closePath();
             ctx.fill();
             ctx.restore();
@@ -157,37 +160,32 @@
             ctx.fillStyle = color;
             ctx.translate(point.x, point.y);
             ctx.scale(scale, scale);
-            ctx.beginPath();
             ctx.moveTo(0, 0);
-            ctx.lineTo(15, 15);
-            ctx.lineTo(130, 15);
+    	    ctx.lineTo(15, 15);
+    	    ctx.lineTo(130, 15);
             ctx.stroke();
 
             ctx.moveTo(0, 0);
             ctx.scale(0.75, 0.75);
-            ctx.font = "12px Verdana";
+            ctx.font = "12px,Verdana"; // 字号肿么没有用? (ˉ(∞)ˉ)
             ctx.fillText("Click Me:) ", 30, -5);
             ctx.fillText("Birthday Queen !", 28, 10);
             ctx.restore();
         },
         clear: function() {
-            var ctx = this.tree.ctx, circle = this.circle;
-            var point = circle.point, scale = circle.scale, radius = 26;
+            var ctx = this.tree.ctx, cirle = this.cirle;
+            var point = cirle.point, scale = cirle.scale, radius = 26;
             var w = h = (radius * scale);
             ctx.clearRect(point.x - w, point.y - h, 4 * w, 4 * h);
         },
         hover: function(x, y) {
             var ctx = this.tree.ctx;
-            try {
-                var pixel = ctx.getImageData(x, y, 1, 1);
-                return pixel.data[3] == 255;
-            } catch(e) {
-                return false;
-            }
+            var pixel = ctx.getImageData(x, y, 1, 1);
+            return pixel.data[3] == 255
         }
     }
 
-    var Footer = function(tree, width, height, speed) {
+    Footer = function(tree, width, height, speed) {
         this.tree = tree;
         this.point = new Point(tree.seed.heart.point.x, tree.height - height / 2);
         this.width = width;
@@ -208,8 +206,8 @@
             ctx.translate(point.x, point.y);
             ctx.beginPath();
             ctx.moveTo(0, 0);
-            ctx.lineTo(len, 0);
-            ctx.lineTo(-len, 0);
+    	    ctx.lineTo(len, 0);
+    	    ctx.lineTo(-len, 0);
             ctx.stroke();
             ctx.restore();
 
@@ -219,7 +217,7 @@
         }
     }
 
-    var Tree = function(canvas, width, height, opt) {
+    Tree = function(canvas, width, height, opt) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.width = width;
@@ -254,7 +252,7 @@
         },
 
         initBranch: function() {
-            var branchs = this.opt.branch || [];
+            var branchs = this.opt.branch || []
             this.branchs = [];
             this.addBranchs(branchs);
         },
@@ -282,40 +280,39 @@
             var s = this, ctx = s.ctx;
             var rec = s.record[k];
             if (!rec) {
-                return;
+                return ;
             }
             var point = rec.point,
                 image = rec.image;
 
             ctx.save();
             ctx.putImageData(image, point.x, point.y);
-            ctx.restore();
+        	ctx.restore();
         },
 
         addBranch: function(branch) {
-            this.branchs.push(branch);
+        	this.branchs.push(branch);
         },
 
         addBranchs: function(branchs){
             var s = this, b, p1, p2, p3, r, l, c;
-            for (var i = 0; i < branchs.length; i++) {
+        	for (var i = 0; i < branchs.length; i++) {
                 b = branchs[i];
                 p1 = new Point(b[0], b[1]);
                 p2 = new Point(b[2], b[3]);
                 p3 = new Point(b[4], b[5]);
                 r = b[6];
                 l = b[7];
-                c = b[8];
+                c = b[8]
                 s.addBranch(new Branch(s, p1, p2, p3, r, l, c)); 
             }
         },
 
         removeBranch: function(branch) {
             var branchs = this.branchs;
-            for (var i = 0; i < branchs.length; i++) {
-                if (branchs[i] === branch) {
-                    branchs.splice(i, 1);
-                    break;
+        	for (var i = 0; i < branchs.length; i++) {
+        		if (branchs[i] === branch) {
+        			branchs.splice(i, 1);
                 }
             }
         },
@@ -325,7 +322,7 @@
         },
         grow: function() {
             var branchs = this.branchs;
-            for (var i = 0; i < branchs.length; i++) {
+    	    for (var i = 0; i < branchs.length; i++) {
                 var branch = branchs[i];
                 if (branch) {
                     branch.grow();
@@ -342,26 +339,19 @@
             for (var i = 0; i < blooms.length; i++) {
                 if (blooms[i] === bloom) {
                     blooms.splice(i, 1);
-                    break;
                 }
             }
         },
 
         createBloom: function(width, height, radius, figure, color, alpha, angle, scale, place, speed) {
             var x, y;
-            var attempts = 0;
-            var maxAttempts = 1000;
-            
-            while (attempts < maxAttempts) {
+            while (true) {
                 x = random(20, width - 20);
                 y = random(20, height - 20);
                 if (inheart(x - width / 2, height - (height - 40) / 2 - y, radius)) {
                     return new Bloom(this, new Point(x, y), figure, color, alpha, angle, scale, place, speed);
                 }
-                attempts++;
             }
-            // Fallback if no valid position found
-            return new Bloom(this, new Point(width/2, height/2), figure, color, alpha, angle, scale, place, speed);
         },
         
         canFlower: function() {
@@ -380,49 +370,33 @@
 
         snapshot: function(k, x, y, width, height) {
             var ctx = this.ctx;
-            try {
-                var image = ctx.getImageData(x, y, width, height); 
-                this.record[k] = {
-                    image: image,
-                    point: new Point(x, y),
-                    width: width,
-                    height: height,
-                    speed: 10
-                };
-            } catch(e) {
-                console.warn('Could not take snapshot:', e);
+            var image = ctx.getImageData(x, y, width, height); 
+            this.record[k] = {
+                image: image,
+                point: new Point(x, y),
+                width: width,
+                height: height
             }
         },
-        
         setSpeed: function(k, speed) {
-            var record = this.record[k || "move"];
-            if (record) {
-                record.speed = speed;
-            }
+            this.record[k || "move"].speed = speed;
         },
-        
         move: function(k, x, y) {
             var s = this, ctx = s.ctx;
             var rec = s.record[k || "move"];
-            if (!rec) return false;
-            
             var point = rec.point,
                 image = rec.image,
                 speed = rec.speed || 10,
                 width = rec.width,
                 height = rec.height; 
 
-            var i = point.x + speed < x ? point.x + speed : x;
-            var j = point.y + speed < y ? point.y + speed : y; 
+            i = point.x + speed < x ? point.x + speed : x;
+            j = point.y + speed < y ? point.y + speed : y; 
 
             ctx.save();
             ctx.clearRect(point.x, point.y, width, height);
-            try {
-                ctx.putImageData(image, i, j);
-            } catch(e) {
-                console.warn('Could not put image data:', e);
-            }
-            ctx.restore();
+            ctx.putImageData(image, i, j);
+        	ctx.restore();
 
             rec.point = new Point(i, j);
             rec.speed = speed * 0.95;
@@ -445,7 +419,7 @@
                     width = bloom.width || this.width,
                     height = bloom.height || this.height,
                     figure = this.seed.heart.figure;
-                var r = 240;
+                var r = 240, x, y;
                 for (var i = 0; i < random(1,2); i++) {
                     blooms.push(this.createBloom(width / 2 + width, height, r, figure, null, 1, null, 1, new Point(random(-100,600), 720), random(200,300)));
                 }
@@ -453,7 +427,7 @@
         }
     }
 
-    var Branch = function(tree, point1, point2, point3, radius, length, branchs) {
+    Branch = function(tree, point1, point2, point3, radius, length, branchs) {
         this.tree = tree;
         this.point1 = point1;
         this.point2 = point2;
@@ -482,18 +456,19 @@
             var s = this;
             var ctx = s.tree.ctx;
             ctx.save();
-            ctx.beginPath();
-            ctx.fillStyle = '#FFC0CB';
+        	ctx.beginPath();
+        	ctx.fillStyle = '#FFC0CB';
+            // ctx.shadowColor = 'rgb(35, 31, 32)';
             ctx.shadowBlur = 2;
-            ctx.moveTo(p.x, p.y);
-            ctx.arc(p.x, p.y, s.radius, 0, 2 * Math.PI);
-            ctx.closePath();
-            ctx.fill();
-            ctx.restore();
+        	ctx.moveTo(p.x, p.y);
+        	ctx.arc(p.x, p.y, s.radius, 0, 2 * Math.PI);
+        	ctx.closePath();
+        	ctx.fill();
+        	// ctx.restore();
         }
     }
 
-    var Bloom = function(tree, point, figure, color, alpha, angle, scale, place, speed) {
+    Bloom = function(tree, point, figure, color, alpha, angle, scale, place, speed) {
         this.tree = tree;
         this.point = point;
         this.color = color || 'rgb(255,' + random(0, 255) + ',' + random(0, 255) + ')';
@@ -502,9 +477,9 @@
         this.scale = scale || 0.1;
         this.place = place;
         this.speed = speed;
+
         this.figure = figure;
     }
-    
     Bloom.prototype = {
         setFigure: function(figure) {
             this.figure = figure;
@@ -546,20 +521,13 @@
                 s.point = s.place.sub(s.point).div(s.speed).add(s.point);
                 s.angle += 0.05;
                 s.speed -= 1;
-                if (s.speed < 1) s.speed = 1;
             }
         }
     }
 
-    // Make sure objects are properly exported to window
     window.random = random;
     window.bezier = bezier;
     window.Point = Point;
     window.Tree = Tree;
-    window.Heart = Heart;
-    window.Seed = Seed;
-    window.Footer = Footer;
-    window.Branch = Branch;
-    window.Bloom = Bloom;
 
 })(window);
