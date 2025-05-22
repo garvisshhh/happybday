@@ -6,11 +6,11 @@ body {
   background-repeat: no-repeat;
   font-size: 14px;
   font-family: sans-serif;
-  color: white;
+  color: #fff;
   overflow: auto;
 }
 a {
-  color: white;
+  color: #fff;
   font-size: 14px;
 }
 #main {
@@ -32,7 +32,7 @@ a {
 }
 #code {
   display: none;
-  color: rgb(196, 255, 255);
+  color: #fff; /* force white text */
   font-size: 16px;
   margin-top: 70px;
   line-height: 25px;
@@ -44,14 +44,16 @@ a {
   left: 60px;
   top: 550px;
   font-size: 28px;
-  display: none;
+  display: block; /* ensure it's visible */
 }
 #clock-box a {
   font-size: 28px;
   text-decoration: none;
+  color: #fff;
 }
 #clock {
   margin-left: 48px;
+  color: #fff; /* white text for clock */
 }
 #clock .digit {
   font-size: 64px;
@@ -71,6 +73,7 @@ a {
   cursor: pointer;
 }
 .say {
+  color: #fff; /* white text for message lines */
   margin-left: 5px;
 }
 .space {
@@ -82,5 +85,5 @@ a {
   margin-top:450px;
   font-size: 25px;
   font-family: monospace;
-
+  color: #fff; /* white text for messages */
 }
