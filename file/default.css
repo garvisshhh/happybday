@@ -6,11 +6,11 @@ body {
   background-repeat: no-repeat;
   font-size: 14px;
   font-family: "Comic Sans MS", "Comic Sans", cursive, sans-serif;
-  color: #fff;
+  color: #000;
   overflow: auto;
 }
 a {
-  color: #fff;
+  color: #000;
   font-size: 14px;
 }
 #main {
@@ -32,7 +32,7 @@ a {
 }
 #code {
   display: none;
-  color: #fff; /* changed from #fff to black */
+  color: #000; /* changed from #fff to black */
   font-size: 16px;
   margin-top: 70px;
   line-height: 25px;
@@ -40,7 +40,7 @@ a {
   font-weight: bolder;
 }
 #lucky-text {
-    color: #fff;
+    color: #000;
     font-size: 1.1em;  /* Changed from 0.5em to 1.1em for better visibility, but still smaller than main titles */
     text-align: center;
     margin-bottom: 10px;
@@ -94,5 +94,5 @@ a {
   margin-top:600px;
   font-size: 25px;
   font-family: "Comic Sans MS", "Comic Sans", cursive, sans-serif;
-  color: #fff; /* white text for messages */
+  color: #000; /* white text for messages */
 }
